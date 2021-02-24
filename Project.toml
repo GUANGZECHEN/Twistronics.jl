@@ -1,0 +1,13 @@
+name = "Twistronics"
+uuid = "e64eaefb-b7d3-45fb-a1e6-d686d91076ba"
+authors = ["GUANGZECHEN <guangze.chen@aalto.fi> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
