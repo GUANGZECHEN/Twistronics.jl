@@ -21,7 +21,7 @@ lambda=10 # this parameter determines the decay of inter-layer hopping w.r.t dis
 H=Twistronics.get_H_inter_twisted_bilayer(g,t_xy,t_z,lambda,mode)  # get the Hamiltonian of twisted bilayer
 P=Twistronics.get_valley_operator_inter_twisted_bilayer(g,mode)    # get the valley operator of the twisted bilayer
 
-#Twistronics.plot_H(H.intra,g.sites)              # Plot the intra-unitcell Hamiltonian to see if hoppings are correct
+Twistronics.plot_H(H.intra,g.sites)              # Plot the intra-unitcell Hamiltonian to see if hoppings are correct
 
 b1,b2=Twistronics.get_reciprocal_vector(g.inter_vector.x,g.inter_vector.y) # get reciprocal vector for the supercell
 n_k=100
