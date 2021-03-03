@@ -7,8 +7,11 @@ Julia codes for computing electronic bandstructure in twisted 2D systems
 julia> import Pkg
 julia> Pkg.add("Twistronics")
 ```
+# Disclaimer
+This package is still under heavy development
 
 # Examples
+Codes can be found in the examples folder
 ## Twisted bilayer graphene
 ![Alt text](figs/sites_TBG.png?raw=true "TBG_sites" )
 ![Alt text](figs/TBG.png?raw=true "TBG" )
