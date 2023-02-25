@@ -97,7 +97,7 @@ function next_next_nearest(site_a,site_b)
 end
 
 function plot_R(R)
-    plt.figure(figsize=(6,6),dpi=80)
+    plt.figure(figsize=(6,4),dpi=100)
     N=size(R,1)
     x=Array{Float64}(undef,Int(N))
     y=Array{Float64}(undef,Int(N))
@@ -126,7 +126,7 @@ function plot_R(R)
         y2=y2[1:j2-1]
         plt.scatter(x2,y2,color="blue",s=10)
     end
-    plt.axis([-40,40,-40,40])
+    plt.axis([-50,50,-30,30])
     plt.xlabel("")
     plt.ylabel("")
     plt.show()

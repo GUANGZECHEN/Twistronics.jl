@@ -18,7 +18,7 @@ function get_valley_operator_twisted_bilayer(R,r,mode,theta,r0,layer_factor=1)  
     t0=now()
     N=size(R,1)
 
-    I,J,value=ones(Int,N*13),ones(Int,N*13),zeros(Complex,N*13)
+    I,J,value=ones(Int,N*13),ones(Int,N*13),zeros(ComplexF64,N*13)
     n=1
     for i=1:N
         for j=1:N

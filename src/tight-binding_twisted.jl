@@ -6,6 +6,7 @@
 #using Random
 #using PyCall
 #using SparseArrays
+#using Dates
 
 #plt = pyimport("matplotlib.pyplot")
 
@@ -13,6 +14,7 @@
 
 
 ### for triangular lattice, use pi-flux hopping!!!
+
 
 struct get_hamiltonian
     intra
@@ -29,7 +31,7 @@ function get_H_twisted_bilayer(R,r,t_xy,t_z,d,lambda,mode,theta,r0,interlayer_bi
     N=size(R,1)
 
     #H=spzeros(Complex,N,N)                        # H_QSL is spin-degen
-    I,J,value=ones(Int,N*100),ones(Int,N*100),zeros(Complex,N*100)
+    I,J,value=ones(Int,N*100),ones(Int,N*100),zeros(N*100)
     n=1
     for i=1:N
         if R[i][3]!=0
@@ -89,8 +91,12 @@ function get_H_inter_twisted_bilayer(g::geometry_twisted, t_xy,t_z,lambda,mode,i
 end
 
 function get_Hk(H::get_hamiltonian,k::Array{Float64,1})
-    H0=exp(im*dot(k,H.geometry.inter_vector.x))*H.tx+exp(im*dot(k,H.geometry.inter_vector.y))*H.ty+exp(im*dot(k,H.geometry.inter_vector.xy))*H.txy
-    Hk=H.intra+H0+adjoint(H0)  
+    Hx=exp(im*dot(k,H.geometry.inter_vector.x))*H.tx
+    Hy=exp(im*dot(k,H.geometry.inter_vector.y))*H.ty
+    Hxy=exp(im*dot(k,H.geometry.inter_vector.xy))*H.txy
+    H0=Hx+Hy+Hxy
+    Hk=H.intra+H0+adjoint(H0)
+    Hk=dropzeros(Hk)  
     return Hk 
 end
 
