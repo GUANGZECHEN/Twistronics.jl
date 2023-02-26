@@ -13,6 +13,7 @@ Codes can be found in the examples folder
 ## Twisted bilayer graphene
 ### Supercell and bandstructure
 ![Alt text](figs/TBG.png?raw=true "TBG" )
+(a) Supercell of TBG at twist angle $1.89^\circ$. (b)-(d) bandstructure of TBG at twist angle (b) $\theta=21.79^\circ$, (c) $\theta=9.43^\circ$ and (d) $\theta=1.89^\circ$.
 
 ### Interlayer bias and layer operator
 ![Alt text](figs/tbg_bias.png?raw=true "TBG_bias" )
