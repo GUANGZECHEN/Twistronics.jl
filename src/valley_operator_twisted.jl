@@ -1,19 +1,3 @@
-#using LinearAlgebra
-#using DelimitedFiles
-#using Statistics
-#using Plots
-#using DelimitedFiles
-#using Random
-#using PyCall
-#using SparseArrays
-
-#plt = pyimport("matplotlib.pyplot")
-
-#include("Geometry_twisted.jl")
-
-
-### for triangular lattice, use pi-flux hopping!!!
-
 function get_valley_operator_twisted_bilayer(R,r,mode,theta,r0,layer_factor=1)  # d: inter-layer distance, lambda: parameter, mode="uniform_hop" or "pi-flux"
     t0=now()
     N=size(R,1)

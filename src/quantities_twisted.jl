@@ -1,24 +1,59 @@
-#using LinearAlgebra
-#using DelimitedFiles
-#using Statistics
-#using Plots
-#using DelimitedFiles
-#using Random
-#using SparseArrays
-#using Arpack
-
-#include("Geometry_twisted.jl")
-#include("tight-binding_twisted.jl")
-#include("valley_operator_twisted.jl")
-#using PyCall
-#plt = pyimport("matplotlib.pyplot")
-
-
-#using Dates
-
 function get_k_points(b1,b2,n_k)
     k_points=[b2*i/n_k+(b1-b2/2)/2 for i=0:n_k]
     return k_points
+end
+
+function get_band_twisted_simple(H::get_hamiltonian,k_points::Array{Array{Float64,1},1},n_bands,dim=2) # dim=1 for ribbon geometry
+    n_k=size(k_points,1)
+    momenta=Array{Float64}(undef,Int(n_k*n_bands))
+    energies=Array{Float64}(undef,Int(n_k*n_bands))
+    index=1
+    for i=1:n_k
+        k=k_points[i]
+        if dim==2
+            Hk=get_Hk(H,k)           
+        else
+            Hk=get_Hk_ribbon(H,k)         
+        end
+        
+        eigvals,eigvecs=eigs(Hk,nev=n_bands,sigma=0.0001,which=:LM,maxiter=10000)
+
+        for i_band=1:n_bands
+            momenta[index]=i
+            energies[index]=real(eigvals[i_band])
+            psi=eigvecs[:,i_band]
+            index+=1
+        end
+    end
+    return momenta, energies
+end
+
+function get_band_twisted_layer(H::get_hamiltonian,k_points::Array{Array{Float64,1},1},n_bands,dim=2) # dim=1 for ribbon geometry
+    n_k=size(k_points,1)
+    momenta=Array{Float64}(undef,Int(n_k*n_bands))
+    energies=Array{Float64}(undef,Int(n_k*n_bands))
+    valley_polarization=Array{Float64}(undef,Int(n_k*n_bands))
+    index=1
+    for i=1:n_k
+        k=k_points[i]
+        if dim==2
+            Hk=get_Hk(H,k)
+            Pk=get_layer_operator_twisted_bilayer(H.geometry.sites)
+        else
+            Hk=get_Hk_ribbon(H,k)
+            Pk=get_layer_operator_twisted_bilayer(H.geometry.sites)#          
+        end
+        
+        eigvals,eigvecs=eigs(Hk,nev=n_bands,sigma=0.0001,which=:LM,maxiter=10000)
+        for i_band=1:n_bands
+            momenta[index]=i
+            energies[index]=real(eigvals[i_band])
+            psi=eigvecs[:,i_band]
+            valley_polarization[index]=real(adjoint(psi)*Pk*psi)
+            index+=1
+        end
+    end
+    return momenta, energies, valley_polarization
 end
 
 function get_band_twisted(H::get_hamiltonian,P::get_hamiltonian,k_points::Array{Array{Float64,1},1},n_bands,dim=2) # dim=1 for ribbon geometry
@@ -68,7 +103,7 @@ function get_band_twisted_2(H::get_hamiltonian,P::get_hamiltonian,k_points::Arra
             Hk=get_Hk_ribbon(H,k)
             Pk=get_Pk_ribbon(P,k)#get_layer_operator_twisted_bilayer(R_unitcell)#           
         end
-        Hk=Hk+0.05*Pk
+        Hk=Hk+0.01*Pk
         eigvals,eigvecs=eigs(Hk,nev=n_bands,sigma=0.0001,which=:LM,maxiter=10000)
         #F=eigen(Matrix(H))
         #eigvals,eigvecs=F.values,F.vectors

@@ -1,21 +1,3 @@
-#using LinearAlgebra
-#using DelimitedFiles
-#using Statistics
-#using Plots
-#using DelimitedFiles
-#using Random
-#using PyCall
-#using SparseArrays
-#using Dates
-
-#plt = pyimport("matplotlib.pyplot")
-
-#include("Geometry_twisted.jl")
-
-
-### for triangular lattice, use pi-flux hopping!!!
-
-
 struct get_hamiltonian
     intra
     tx
@@ -164,7 +146,7 @@ function plot_H(H,R)
             end
         end
     end
-    plt.axis([-5,5,-5,5])
+    plt.axis([-10,10,-10,10])
     plt.xlabel("")
     plt.ylabel("")
     plt.show()

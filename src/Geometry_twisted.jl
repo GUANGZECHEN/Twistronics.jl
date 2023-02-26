@@ -1,9 +1,3 @@
-#using LinearAlgebra
-#using DelimitedFiles
-#using Statistics
-#using Dates
-#using PyCall
-
 struct unit_vector
     x
     y
